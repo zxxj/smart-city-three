@@ -1,7 +1,41 @@
 import * as THREE from 'three';
+import { loadGltf } from './loadGLTF';
 
-const geometry = new THREE.BoxGeometry(50, 50, 50);
-const materila = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const mesh = new THREE.Mesh(geometry, materila);
+const group = new THREE.Group();
 
-export { mesh };
+const gltf = await loadGltf('/public/', '上海外滩.glb');
+group.add(gltf.scene);
+
+gltf.scene.getObjectByName('楼房').traverse((obj) => {
+  if (obj.type === 'Mesh') {
+    obj.material = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+    });
+  }
+
+  if (obj.name === '上海中心大厦') {
+    obj.material = new THREE.MeshBasicMaterial({
+      color: 0x996633,
+    });
+  }
+
+  if (obj.name === '东方明珠') {
+    obj.material = new THREE.MeshBasicMaterial({
+      color: 0x996633,
+    });
+  }
+
+  if (obj.name === '环球金融中心') {
+    obj.material = new THREE.MeshBasicMaterial({
+      color: 0x996633,
+    });
+  }
+
+  if (obj.name === '金茂大厦') {
+    obj.material = new THREE.MeshBasicMaterial({
+      color: 0x996633,
+    });
+  }
+});
+
+export { group };
